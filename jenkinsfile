@@ -18,20 +18,21 @@ stages {
     }
     stage ('Make docker image') {
         steps {
-         //   sh 'groupadd docker'
-         //   sh 'chown root:docker /var/run/docker.sock'
-         //   sh 'docker login 192.168.55.22:8123 --username admin --password Q1w2e3r4'
             sh 'docker build -t myweb:latest .' 
             sh 'docker login 192.168.55.22:8123 --username admin --password Q1w2e3r4 && docker tag myweb:latest 192.168.55.22:8123/myweb:latest && docker push 192.168.55.22:8123/myweb:latest'
         }
     }
+
+
     stage ('Run docker on prod') {
         steps {
-          //  sh 'ssh-keyscan -H 192.168.55.24  >> ~/.ssh/known_hosts'
-            sh '''ssh root@192.168.55.24 << EOF
-	docker run -it --rm -p 8080:8080 -d 192.168.55.22:8123/myweb 
+            sh 'ssh-keyscan -H 192.168.55.24  >> ~/.ssh/known_hosts'
+            sh '''ssh slave3@192.168.55.24 << EOF
+	sudo docker run -it --rm -p 8080:8080 -d 192.168.55.22:8123/myweb 
 	EOF'''
+  }
+
+          
         }
     }
-}
 }
