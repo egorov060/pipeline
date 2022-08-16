@@ -1,9 +1,9 @@
 pipeline {
+    agent {
     docker {
         image '192.168.55.22:8123/jenkins-maven'
     }
 }
-
 stages {
     stage ('Copy source') {
         steps {
@@ -21,4 +21,5 @@ stages {
             sh 'docker tag myweb 192.168.55.22:8123/myweb $$ docker push 192.168.55.22:8123/myweb'
         }
     }
+}
 }
