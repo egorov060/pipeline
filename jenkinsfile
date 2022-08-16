@@ -2,7 +2,7 @@ pipeline {
     agent {
     docker {
         image '192.168.55.22:8123/jenkins-maven'
-        args '-u root'
+        args '-u root -v /var/run/docker.sock:/var/run/docker.sock'
     }
 }
 stages {
@@ -18,8 +18,11 @@ stages {
     }
     stage ('Make docker image') {
         steps {
-            sh 'docker build -t myweb .' 
-            sh 'docker tag myweb 192.168.55.22:8123/myweb $$ docker push 192.168.55.22:8123/myweb'
+         //   sh 'groupadd docker'
+         //   sh 'chown root:docker /var/run/docker.sock'
+         //   sh 'docker login 192.168.55.22:8123 --username admin --password Q1w2e3r4'
+            sh 'docker build -t myweb:latest .' 
+            sh 'docker login 192.168.55.22:8123 --username admin --password Q1w2e3r4 && docker tag myweb:latest 192.168.55.22:8123/myweb:latest && docker push 192.168.55.22:8123/myweb:latest'
         }
     }
 }
