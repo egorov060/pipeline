@@ -1,7 +1,8 @@
 pipeline {
     agent {
-    docker {
-        image '192.168.55.22:8123/jenkins-maven'
+    any {
+        image 'node:192.168.55.22:8123/jenkins-maven' 
+        args '-u root'
     }
 }
 stages {
@@ -17,7 +18,7 @@ stages {
     }
     stage ('Make docker image') {
         steps {
-            sh 'cp -R origin555/target/* origin555/ && cd origin555 && docker build myweb .' 
+            sh 'docker build -t myweb .' 
             sh 'docker tag myweb 192.168.55.22:8123/myweb $$ docker push 192.168.55.22:8123/myweb'
         }
     }
