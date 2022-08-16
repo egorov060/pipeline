@@ -27,7 +27,7 @@ stages {
     stage ('Run docker on prod') {
         steps {
             sh 'ssh-keyscan -H 192.168.55.24  >> ~/.ssh/known_hosts'
-            sh '''ssh slave3@192.168.55.24 << EOF
+            sh '''ssh root@192.168.55.24 << EOF
 	sudo docker run -it --rm -p 8080:8080 -d 192.168.55.22:8123/myweb 
 	EOF'''
   }
