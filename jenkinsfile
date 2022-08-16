@@ -1,0 +1,24 @@
+pipeline {
+    docker {
+        image '192.168.55.22:8123/jenkins-maven'
+    }
+}
+
+stages {
+    stage ('Copy source') {
+        steps {
+            git 'https://github.com/egorov060/origin555.git'
+        }
+    }
+    stage ('build war') {
+        steps {
+            sh 'mvn package'
+        }
+    }
+    stage ('Make docker image') {
+        steps {
+            sh 'cp -R origin555/target/* origin555/ && cd origin555 && docker build myweb .' 
+            sh 'docker tag myweb 192.168.55.22:8123/myweb $$ docker push 192.168.55.22:8123/myweb'
+        }
+    }
+}
