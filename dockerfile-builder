@@ -1,4 +1,5 @@
-FROM maven:3.8.6-openjdk-11
-RUN apt-get update \
- && apt-get install -y git
-RUN apt-get install -y docker.io
+FROM ubuntu:20.04
+RUN apt update
+RUN apt install -y default-jdk
+RUN apt install -y docker.io
+CMD docker start

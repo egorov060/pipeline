@@ -1,7 +1,7 @@
 pipeline {
     agent {
-    any {
-        image 'node:192.168.55.22:8123/jenkins-maven' 
+    docker {
+        image '192.168.55.22:8123/jenkins-maven'
         args '-u root'
     }
 }
