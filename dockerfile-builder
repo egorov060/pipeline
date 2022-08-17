@@ -6,5 +6,5 @@ RUN apt install -y maven
 RUN apt install -y openssh-client
 RUN apt install -y apt-transport-https ca-certificates curl gnupg2 software-properties-common
 COPY id_rsa /root/.ssh/id_rsa
-RUN chmod 600 /root/.ssh/
+RUN chmod 600 /root/.ssh/id_rsa
 CMD docker start
